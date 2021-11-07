@@ -26,7 +26,6 @@ $RECYCLE.BIN/
 
 # Folders
 .idea/*
-.github/*
 
 #hexlet
 .venv/*
