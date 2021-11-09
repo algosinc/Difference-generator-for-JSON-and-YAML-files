@@ -18,10 +18,10 @@ def compare(first_json, second_json):
                 result.append(f'  + {encode(key)}: {encode(second_json[key])}')
             continue
         if (key in first_json) and not (key in second_json):
-            result.append(f'  - {encode(key)}: {encode(first_json[key])}')  # remove item
+            result.append(f'  - {encode(key)}: {encode(first_json[key])}')  # noqa # remove item
             continue
         else:
-            result.append(f'  + {encode(key)}: {encode(second_json[key])}')  # new item
+            result.append(f'  + {encode(key)}: {encode(second_json[key])}')  # noqa # new item
     result.append('}')
     return '\n'.join(result)
 
