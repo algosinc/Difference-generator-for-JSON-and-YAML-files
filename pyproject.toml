@@ -12,6 +12,8 @@ python = "^3.8"
 #PyYAML = "^5.4.1"
 
 
+pytest = "^6.2.5"
+coverage = "^6.1.1"
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
 pytest = "^6.2.1"
