@@ -27,7 +27,7 @@ def json_compare(first_json, second_json):
 
 
 def json_encode(value_in_json):
-    return json.JSONEncoder().json_encode(value_in_json)
+    return json.JSONEncoder().encode(value_in_json)
 
 
 def generate_diff(first_file, second_file, format):
