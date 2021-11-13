@@ -53,7 +53,7 @@ def json_encode(value_in_json):
 
 
 def yaml_encode(value_in_yaml):
-    return value_in_yaml
+    return yaml.safe_dump(value_in_yaml)[:-5]
 
 
 def generate_diff(first_file, second_file, file_type):
