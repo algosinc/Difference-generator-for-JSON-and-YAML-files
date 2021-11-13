@@ -69,26 +69,25 @@ def generate_diff(first_file, second_file, file_type):
                 return yaml_compare(first_yaml, second_yaml)
 
 
-def test():
-    first_file = r'../../tests/fixtures/yaml/file1.yml'
-    second_file = r'../../tests/fixtures/yaml/file2.yml'
-    print(generate_diff(first_file, second_file, 'yaml'))
-
-
-test()
-
-
-# def main():
-#     parser = argparse.ArgumentParser(description='Generate diff')
-#     parser.add_argument('first_file', metavar='first_file', type=str)
-#     parser.add_argument('second_file', metavar='second_file', type=str)
-#     parser.add_argument('-f', '--format', dest='format', default='json',
-#                         help='set format of output')
-#     args = parser.parse_args()
-#
-#     print(generate_diff(args.first_file, args.second_file, args.format))
+# def test():
+#     first_file = r'../../tests/fixtures/yaml/file1.yml'
+#     second_file = r'../../tests/fixtures/yaml/file2.yml'
+#     print(generate_diff(first_file, second_file, 'yaml'))
 #
 #
-# if __name__ == '__main__':
-#     main()
-#
+# test()
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Generate diff')
+    parser.add_argument('first_file', metavar='first_file', type=str)
+    parser.add_argument('second_file', metavar='second_file', type=str)
+    parser.add_argument('-f', '--format', dest='format', default='json',
+                        help='set format of output')
+    args = parser.parse_args()
+
+    print(generate_diff(args.first_file, args.second_file, args.format))
+
+
+if __name__ == '__main__':
+    main()
