@@ -8,7 +8,7 @@ cc-coverage:
 	poetry run coverage xml
 
 lint:
-    poetry run flake8 --count --max-line-length=127 gendiff
+	poetry run flake8 --count --max-line-length=127 gendiff
 
 selfcheck:
 	poetry check
