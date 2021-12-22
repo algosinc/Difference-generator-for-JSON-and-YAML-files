@@ -1,0 +1,8 @@
+{
+  "key1": {
+    "setting1": "Value 1",
+    "setting2": 200,
+    "setting3": true,
+    "setting4": {"key": "value", "doge": {"wow": "o"}}
+  }
+}
