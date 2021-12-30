@@ -1,186 +1,100 @@
-def stylish_formatter(diff: dict):
-    indent = '   '
+from itertools import chain
 
-# def diff_sort(diff):
+from gendiff.constants import (
+    ADDED,
+    CHANGED,
+    INDENT,
+    NESTED,
+    REMOVED,
+    UNCHANGED,
+    VALUE,
+    NEW_VALUE, STATE
+)
 
-
-# def json_compare(first_json, second_json):
-#     keys = set(first_json.keys())
-#     keys_list = list(keys.union(set(second_json.keys())))
-#     keys_list.sort()
-#     result = ['{', ]
-#     for key in keys_list:
-#         if (key in first_json) and (key in second_json):
-#             if first_json[key] == second_json[key]:             # no changes
-#                 result.append(f'    {json_encode(key)}: {json_encode(first_json[key])}')
-#             if first_json[key] != second_json[key]:             # value changed
-#                 result.append(f'  - {json_encode(key)}: {json_encode(first_json[key])}')
-#                 result.append(f'  + {json_encode(key)}: {json_encode(second_json[key])}')
-#             continue
-#         if (key in first_json) and not (key in second_json):
-#             result.append(f'  - {json_encode(key)}: {json_encode(first_json[key])}')  # noqa # remove item
-#             continue
-#         else:
-#             result.append(f'  + {json_encode(key)}: {json_encode(second_json[key])}')  # noqa # new item
-#     result.append('}')
-#     return '\n'.join(result)
-#
-#
-# def yaml_compare(first_yaml, second_yaml):
-#     keys = set(first_yaml.keys())
-#     keys_list = list(keys.union(set(second_yaml.keys())))
-#     keys_list.sort()
-#     result = []
-#     for key in keys_list:
-#         if (key in first_yaml) and (key in second_yaml):
-#             if first_yaml[key] == second_yaml[key]:             # no changes
-#                 result.append(f'  {yaml_encode(key)}: {yaml_encode(first_yaml[key])}')
-#             if first_yaml[key] != second_yaml[key]:             # value changed
-#                 result.append(f'- {yaml_encode(key)}: {yaml_encode(first_yaml[key])}')
-#                 result.append(f'+ {yaml_encode(key)}: {yaml_encode(second_yaml[key])}')
-#             continue
-#         if (key in first_yaml) and not (key in second_yaml):
-#             result.append(f'- {yaml_encode(key)}: {yaml_encode(first_yaml[key])}')  # remove item
-#             continue
-#         else:
-#             result.append(f'+ {yaml_encode(key)}: {yaml_encode(second_yaml[key])}')  # new item
-#     return '\n'.join(result)
-#
-#
-# def json_encode(value_in_json):
-#     return json.JSONEncoder().encode(value_in_json)
-#
-#
-# def yaml_encode(value_in_yaml):
-#     return yaml.safe_dump(value_in_yaml)[:-5]
-
-def ttest():
-    test_list = \
-        [{'key': 'common', 'state': 'nested', 'value':
-            [
-                {'key': 'setting3', 'state': 'changed', 'old value': True, 'new value': None},
-                {'key': 'setting6', 'state': 'nested', 'value': [
-                    {'key': 'key', 'state': 'unchanged', 'value': 'value'},
-                    {'key': 'doge', 'state': 'nested', 'value': [
-                        {'key': 'wow', 'state': 'changed', 'old value': 'o', 'new value': 'so much'}
-                    ]},
-                    {'key': 'ops', 'state': 'added', 'value': 'vops'}]},
-                {'key': 'setting1', 'state': 'unchanged', 'value': 'Value 1'},
-                {'key': 'setting2', 'state': 'removed', 'value': 200},
-                {'key': 'setting5', 'state': 'added', 'value':
-                    {'key5': 'value5'}},
-                {'key': 'setting4', 'state': 'added', 'value': 'blah blah'},
-                {'key': 'follow', 'state': 'added', 'value': False}]},
-            {'key': 'group1', 'state': 'nested', 'value':[
-                {'key': 'baz', 'state': 'changed', 'old value': 'bas', 'new value': 'bars'},
-                {'key': 'nest', 'state': 'changed', 'old value': {'key': 'value'}, 'new value': 'str'},
-            {'key': 'foo', 'state': 'unchanged', 'value': 'bar'}]},
-            {'key': 'group2', 'state': 'removed', 'value': {'abc': 12345, 'deep': {'id': 45}}},
-            {'key': 'group3', 'state': 'added', 'value': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
-        ]
+tree = {'common': {'state': 'nested', 'value': {'follow': {'state': 'added', 'value': False}, 'setting1': {'state': 'unchanged', 'value': 'Value 1'}, 'setting2': {'state': 'removed', 'value': 200}, 'setting3': {'state': 'changed', 'value': True, 'new_value': None}, 'setting4': {'state': 'added', 'value': 'blah blah'}, 'setting5': {'state': 'added', 'value': {'key5': {'state': 'unchanged', 'value': 'value5'}}}, 'setting6': {'state': 'nested', 'value': {'doge': {'state': 'nested', 'value': {'wow': {'state': 'changed', 'value': '', 'new_value': 'so much'}}}, 'key': {'state': 'unchanged', 'value': 'value'}, 'ops': {'state': 'added', 'value': 'vops'}}}}}, 'group1': {'state': 'nested', 'value': {'baz': {'state': 'changed', 'value': 'bas', 'new_value': 'bars'}, 'foo': {'state': 'unchanged', 'value': 'bar'}, 'nest': {'state': 'changed', 'value': {'key': {'state': 'unchanged', 'value': 'value'}}, 'new_value': 'str'}}}, 'group2': {'state': 'removed', 'value': {'abc': {'state': 'unchanged', 'value': 12345}, 'deep': {'state': 'unchanged', 'value': {'id': {'state': 'unchanged', 'value': 45}}}}}, 'group3': {'state': 'added', 'value': {'deep': {'state': 'unchanged', 'value': {'id': {'state': 'unchanged', 'value': {'number': {'state': 'unchanged', 'value': 45}}}}}, 'fee': {'state': 'unchanged', 'value': 100500}}}}
 
 
-a = \
-    [{'key': 'common', 'state': 'nested', 'value':
-            [
-                {'key': 'setting9', 'state': 'changed', 'value': True, 'new value': None},
-                {'key': 'setting6', 'state': 'nested', 'value': 'vops'},
-                {'key': 'setting4', 'state': 'unchanged', 'value': 'Value 1'},
-                {'key': 'setting2', 'state': 'removed', 'value':
-                    [
-                    {'key': 'qwe2', 'state': 'removed', 'value': 12345},
-                    {'key': 'asd', 'state': 'added', 'value': 'deep'}
-                    ]
-                }
-            ]
-      },
-      {'key': 'group3', 'state': 'nested', 'value':[
-            {'key': 'baz', 'state': 'changed', 'value': 'bas', 'new value': 'bars'},
-            {'key': 'nest', 'state': 'changed', 'value': 'value123', 'new value': 'str'},
-            {'key': 'foo', 'state': 'unchanged', 'value': 'bar'}
-            ]
-       },
-      {'key': 'group2', 'state': 'removed', 'value': 12345},
-      {'key': 'group1', 'state': 'added', 'value': 'deep'}
-    ]
+def convert(value):   # convert views of python values to json
+    if value is None:
+        return 'null'
+    elif value is True:
+        return 'true'
+    elif value is False:
+        return 'false'
+    return str(value)
 
-y = [
-    {'key': 'setting9', 'state': 'changed', 'value': True, 'new value': None},
-    {'key': 'setting6', 'state': 'nested', 'value': 'vops'},
-    {'key': 'setting4', 'state': 'unchanged', 'value': 'Value 1'},
-    {'key': 'setting2', 'state': 'removed', 'value':
-        [
-            {'key': 'qwe2', 'state': 'removed', 'value': 12345},
-            {'key': 'asd', 'state': 'added', 'value': 'deep'}
-        ]
+def _make_line(state, depth, key, val, new_val=None):  # OK
+    template = '{ind}{sign} {key}: {value}'
+
+    signs = {
+        ADDED: '+',
+        REMOVED: '-',
+        UNCHANGED: ' ',
+        NESTED: ' '
     }
-    ]
+
+    return template.format(
+        ind=INDENT * depth,
+        sign=signs.get(state),
+        key=key,
+        value=convert(val)
+    )
 
 
-z = {"category": ["NONES","BACKEND"], "selector": "bus", "acrh": "isr", "priority": [4,3,1], "nl_date": "6/19/2005",
-     "rl_date": "", "sl_date": "7/3/2040", "stats": {"zorts": 2, "busic": "", "ack": [54,34,21]}}
-
-def for_sorting_data(data):
-    sorted_data = []
-    def sorting(d):
-        for item in d:
-            if isinstance(item['value'], list):
-                sorting(item['value'])
-        sort_result = sorted(item, key = lambda i: item['key'])
-        sorted_data.append(sort_result)
-
-    sorting(data)
-    return sorted_data
+def _add_tab(state, depth, key):
+    signs = {ADDED: '+', REMOVED: '-', UNCHANGED: ' ', NESTED: ' ', CHANGED: '-'}
+    return '{ind}{sign} {key}: '.format(ind=INDENT * depth, sign=signs.get(state), key=key) + '{'
 
 
-def sorting_data(data):
-    sorted_data = []
-    def sorting(d):
-        result = lambda i: sorting(i['value']) if isinstance(i['value'], list) else i['key']
-        print(result)
-        sort_result = sorted(d, key = result)
-
-        # for item in d:
-        #     if isinstance(item['value'], list):
-        #         sorting(item['value'])
-    #    sort_result = sorted(item, key = lambda i: item['key']) # noqa
-        sorted_data.append(sort_result)
-        return sorted_data
-
-    sorting(data)
-    return sorted_data
+def _remove_tab(depth):
+    return '{ind}'.format(ind=INDENT * depth) + '}'
 
 
-print(for_sorting_data(y))
+def stylish_format(tree, depth=0):
+    lines = ['{']
+#    lines = []
 
+    if not isinstance(tree, dict):
+        return tree
 
+    def _walk(node, depth):
 
+        for key, node_val in sorted(node.items()):
+            data = node[key]
+            state = data.get(STATE)
+            value = data.get(VALUE)
+            new_value = data.get(NEW_VALUE)
 
+            if state == CHANGED:
+                if isinstance(value, dict):
+                    lines.append(_add_tab(REMOVED, depth + 1, key))
+                    lines.extend(stylish_format(value, depth + 2)[1:-1])
+                    lines.append(_remove_tab(depth + 2))
+                else:
+                    lines.append(_make_line(state=REMOVED, depth=depth + 1, key=key, val=stylish_format(value)))
 
-# def sortedDeep(d):
-#     def makeTuple(v): return (*v,) if isinstance(v,(list,dict)) else (v,)
-#
-#     if isinstance(d,list):
-#         return sorted( map(sortedDeep,d) ,key=makeTuple )
-#     if isinstance(d,dict):
-#         return { k: sortedDeep(d[k]) for k in sorted(d)}
-#     return d
-#
-# print(sortedDeep(a))
+                if isinstance(new_value, dict):
+                    lines.append(_add_tab(state, depth + 1, key))
+                    lines.extend(stylish_format(new_value, depth + 2)[1:-1])
+                    lines.append(_remove_tab(depth + 2))
+                else:
+                    lines.append(_make_line(state=ADDED, depth=depth + 1, key=key, val=stylish_format(new_value)))
+                continue
 
-# import json
-# def convert(d):
-#   # sort nested lists
-#   sort_func = lambda v: v if isinstance(v, str) else sorted(v)
-#   y = {k:sort_func(v) for k, v in d.items()}
-#   # using JSON to sort dictionary
-#   return json.dumps(y, sort_keys=True, indent=2)
-#
-# print(convert(z))
+            if not isinstance(value, dict):  # обработка конечного узла
+                result = _make_line(state=state, depth=depth + 1, key=key, val=value, new_val=new_value)
+                lines.append(result)
+                continue
 
+            lines.append(_add_tab(state=state, depth=depth + 1, key=key))  # add level
+            _walk(value, depth + 2)
+            lines.append(_remove_tab(depth + 2))  # remove level
 
-#
-#
-# print(sorting(a))
+    _walk(tree, depth)
+    lines.append('}')
+    return lines
 
-# ttest()
+res = stylish_format(tree)
+for i in res:
+    print(i)
+
