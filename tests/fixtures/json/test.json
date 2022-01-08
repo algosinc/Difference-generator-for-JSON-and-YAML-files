@@ -1,5 +1,0 @@
-{'common': {'state': 'nested', 'value': {'setting3': {'state': 'changed', 'old value': True, 'new value': None}, 'setting1': {'state': 'unchanged', 'value': 'Value 1'}, 'setting6': {'state': 'nested', 'value': {'doge': {'state
-': 'nested', 'value': {'wow': {'state': 'changed', 'old value': 'o', 'new value': 'so much'}}}, 'key': {'state': 'unchanged', 'value': 'value'}, 'ops': {'state': 'added', 'value': 'vops'}}}, 'setting2': {'state': 'removed', 'v
-alue': 200}, 'setting5': {'state': 'added', 'value': {'key5': 'value5'}}, 'setting4': {'state': 'added', 'value': 'blah blah'}, 'follow': {'state': 'added', 'value': False}}}, 'group1': {'state': 'nested', 'value': {'baz': {'s
-tate': 'changed', 'old value': 'bas', 'new value': 'bars'}, 'nest': {'state': 'changed', 'old value': {'key': 'value'}, 'new value': 'str'}, 'foo': {'state': 'unchanged', 'value': 'bar'}}}, 'group2': {'state': 'removed', 'valu
-e': {'abc': 12345, 'deep': {'id': 45}}}, 'group3': {'state': 'added', 'value': {'deep': {'id': {'number': 45}}, 'fee': 100500}}}
