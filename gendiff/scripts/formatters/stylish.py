@@ -11,7 +11,9 @@ from gendiff.constants import (
 
 
 def stylish_formatter(tree):
-    return '\n'.join(formatter(tree))
+    res = '\n'.join(formatter(tree))
+#    print(f'stylish_formatter: \n {res}')
+    return res
 
 
 def convert(value):   # convert views of python values to json
@@ -52,6 +54,7 @@ def _remove_tab(depth):
 
 
 def formatter(tree, depth=0):
+#    print(f'formatter: \n {tree}')
     lines = ['{']
 
     if not isinstance(tree, dict):
@@ -61,7 +64,9 @@ def formatter(tree, depth=0):
 
         for key, node_val in sorted(node.items()):
             data = node[key]
+#            print(f'data: \n{data}')
             state = data.get(STATE)
+ #           print(f'state: \n{state}')
             value = data.get(VALUE)
             new_value = data.get(NEW_VALUE)
 
@@ -93,6 +98,7 @@ def formatter(tree, depth=0):
 
     _walk(tree, depth)
     lines.append('}')
+#    print(f'lines: \n {lines}')
     return lines
 
 
