@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
-
 from gendiff.scripts.formatters.stylish import stylish_formatter
 
-#PATH_TO_RESULT_FILE = 'tests/fixtures/formatters/stylish_result.txt'
-PATH_TO_RESULT_FILE = r'G:\My Drive\_Dev\python-project-lvl2\tests\fixtures\formatters\stylish_result.txt'
+PATH_TO_RESULT_FILE = r'tests/fixtures/json/json_result_stylish.txt'
 
 data = \
     {
@@ -146,5 +144,3 @@ def test_stylish_format():
         print('result:')
         print(result)
         assert stylish_formatter(data) == result
-
-#test_stylish_format()
