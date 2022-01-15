@@ -26,7 +26,7 @@ def convert(value):   # convert views of python values to json
     return str(value)
 
 
-def _make_line(state, depth, key, val, new_val=None):  # make in format line
+def _make_line(state, depth, key, val):  # make in format line
     template = '{ind}{sign} {key}: {value}'
 
     signs = {
@@ -53,8 +53,8 @@ def _remove_tab(depth):
     return '{ind}'.format(ind=INDENT * depth) + '}'
 
 
-def formatter(tree, depth=0):
-#    print(f'formatter: \n {tree}')
+def formatter(tree, depth=0):       # noqa C901
+    # print(f'formatter: \n {tree}')
     lines = ['{']
 
     if not isinstance(tree, dict):
@@ -64,9 +64,9 @@ def formatter(tree, depth=0):
 
         for key, node_val in sorted(node.items()):
             data = node[key]
-#            print(f'data: \n{data}')
+            # print(f'data: \n{data}')
             state = data.get(STATE)
- #           print(f'state: \n{state}')
+            # print(f'state: \n{state}')
             value = data.get(VALUE)
             new_value = data.get(NEW_VALUE)
 
@@ -88,7 +88,7 @@ def formatter(tree, depth=0):
                 continue
 
             if not isinstance(value, dict):  # processing leaf node
-                result = _make_line(state=state, depth=depth + 1, key=key, val=value, new_val=new_value)
+                result = _make_line(state=state, depth=depth + 1, key=key, val=value)
                 lines.append(result)
                 continue
 
@@ -98,7 +98,5 @@ def formatter(tree, depth=0):
 
     _walk(tree, depth)
     lines.append('}')
-#    print(f'lines: \n {lines}')
+    # print(f'lines: \n {lines}')
     return lines
-
-
