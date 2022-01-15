@@ -8,7 +8,7 @@ from gendiff.constants import DEFAULT_FORMAT
 def main():
     first_file, second_file, formatter_style = cli()
     diff = generate_diff(first_file, second_file, formatter_style=DEFAULT_FORMAT)
-#    print(diff)
+    print(diff)
 
 
 if __name__ == '__main__':

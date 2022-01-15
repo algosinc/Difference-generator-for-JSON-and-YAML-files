@@ -1,3 +1,4 @@
+ALL = 'all'
 ADDED = 'added'
 CHANGED = 'changed'
 NESTED = 'nested'
@@ -15,4 +16,3 @@ STYLISH = 'stylish'
 PLAIN = 'plain'
 JSON = 'json'
 DEFAULT_FORMAT = STYLISH
-
