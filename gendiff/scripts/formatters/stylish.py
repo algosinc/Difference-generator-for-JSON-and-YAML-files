@@ -11,9 +11,7 @@ from gendiff.constants import (
 
 
 def stylish_formatter(tree):
-    res = '\n'.join(formatter(tree))
-#    print(f'stylish_formatter: \n {res}')
-    return res
+    return '\n'.join(formatter(tree))
 
 
 def convert(value):   # convert views of python values to json
