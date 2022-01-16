@@ -29,7 +29,7 @@ def format_output(diff: dict, formatter_style: str) -> str:
         print(f'Wrong output format: {formatter_style}. Supported formats: {STYLISH}, {PLAIN}, {JSON}'.format)
 
 
-def generate_diff(file_path1: str, file_path2: str, formatter_style: str) -> str:
+def generate_diff(file_path1, file_path2, formatter_style):
     """
     Detects the format of the submitted files, reads data from them,
     converts them into Python objects and runs diff generation.
