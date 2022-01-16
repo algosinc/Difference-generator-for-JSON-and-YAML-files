@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-from gendiff.scripts.formatters.stylish import stylish_formatter
-
-PATH_TO_RESULT_FILE = r'tests/fixtures/formatters/stylish_result.txt'
-
 data = \
     {
         'common': {
@@ -129,8 +124,3 @@ data = \
             }
         }
     }
-
-
-def test_stylish_format():
-    with open(PATH_TO_RESULT_FILE, 'r') as result_file:
-        assert stylish_formatter(data) == result_file.read()
