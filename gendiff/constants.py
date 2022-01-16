@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 ALL = 'all'
 ADDED = 'added'
 CHANGED = 'changed'
@@ -11,7 +14,7 @@ KEY = 'key'
 
 INDENT = '  '
 
-# formatters
+# formatter names
 STYLISH = 'stylish'
 PLAIN = 'plain'
 JSON = 'json'

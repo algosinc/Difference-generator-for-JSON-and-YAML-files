@@ -1,13 +1,4 @@
-from gendiff.constants import (
-    ADDED,
-    CHANGED,
-    INDENT,
-    NESTED,
-    REMOVED,
-    UNCHANGED,
-    VALUE,
-    NEW_VALUE, STATE
-)
+from gendiff.constants import ADDED, CHANGED, INDENT, NESTED, REMOVED, UNCHANGED, VALUE, NEW_VALUE, STATE
 
 
 def stylish_formatter(tree):
@@ -52,7 +43,6 @@ def _remove_tab(depth):
 
 
 def formatter(tree, depth=0):       # noqa C901
-    # print(f'formatter: \n {tree}')
     lines = ['{']
 
     if not isinstance(tree, dict):
@@ -60,11 +50,9 @@ def formatter(tree, depth=0):       # noqa C901
 
     def _walk(node, depth):
 
-        for key, node_val in sorted(node.items()):
+        for key, node_val in node.items():
             data = node[key]
-            # print(f'data: \n{data}')
             state = data.get(STATE)
-            # print(f'state: \n{state}')
             value = data.get(VALUE)
             new_value = data.get(NEW_VALUE)
 
@@ -96,5 +84,4 @@ def formatter(tree, depth=0):       # noqa C901
 
     _walk(tree, depth)
     lines.append('}')
-    # print(f'lines: \n {lines}')
     return lines
