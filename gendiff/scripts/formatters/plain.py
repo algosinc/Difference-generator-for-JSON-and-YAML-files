@@ -22,12 +22,8 @@ def plain_formatter(diff: dict) -> str:
             state = item.get(STATE)
             value = item.get(VALUE)
             full_path = '.'.join([parent_key, key])
-            # print(f' key: {key}\n state: {state}\n value: {value}')
-            # print(f' path: {full_path}')
             if state == NESTED:
-                # print('->')
                 _walk(value, full_path)     # recursive call
-                # print('<-')
 
             if state == ADDED:
                 lines.append(get_added_line(full_path, value))
