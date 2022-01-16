@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 from gendiff.cli import cli
 from gendiff.generate_diff import generate_diff
-from gendiff.constants import DEFAULT_FORMAT
 
 
 def main():
+    """ Get data from CLI, run diff generation and print result """
     first_file, second_file, formatter_style = cli()
-    diff = generate_diff(first_file, second_file, formatter_style=DEFAULT_FORMAT)
+    diff = generate_diff(first_file, second_file, formatter_style)
     print(diff)
 
 

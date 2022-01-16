@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import argparse
 from gendiff.constants import STYLISH, PLAIN, JSON, DEFAULT_FORMAT
 
@@ -12,6 +13,6 @@ def cli():
                         '--format',
                         choices=[STYLISH, PLAIN, JSON],
                         default=DEFAULT_FORMAT,
-                        help='set format of output (default: JSON)')
+                        help=f'set format of output (default: {DEFAULT_FORMAT})')
     args = parser.parse_args()
     return args.first_file, args.second_file, args.format
