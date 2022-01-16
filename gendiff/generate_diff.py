@@ -5,7 +5,7 @@ import json
 import yaml
 from os import path
 from gendiff.constants import \
-    ALL, ADDED, CHANGED, NESTED, REMOVED, UNCHANGED, VALUE, NEW_VALUE, STATE, STYLISH, PLAIN, JSON
+    ALL, ADDED, CHANGED, NESTED, REMOVED, UNCHANGED, VALUE, NEW_VALUE, STATE, STYLISH, PLAIN, JSON, DEFAULT_FORMAT
 from gendiff.scripts.formatters.stylish import stylish_formatter
 from gendiff.scripts.formatters.plain import plain_formatter
 from gendiff.scripts.formatters.json import json_formatter
@@ -29,7 +29,7 @@ def format_output(diff: dict, formatter_style: str) -> str:
         print(f'Wrong output format: {formatter_style}. Supported formats: {STYLISH}, {PLAIN}, {JSON}'.format)
 
 
-def generate_diff(file_path1, file_path2, formatter_style):
+def generate_diff(file_path1: str, file_path2: str, formatter_style=DEFAULT_FORMAT) -> str:
     """
     Detects the format of the submitted files, reads data from them,
     converts them into Python objects and runs diff generation.
