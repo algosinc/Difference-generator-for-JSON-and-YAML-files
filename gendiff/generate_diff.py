@@ -14,7 +14,7 @@ from gendiff.scripts.formatters.json import json_formatter
 def format_output(diff: dict, formatter_style: str) -> str:
     """ Starts diff formatting based on the selected formatter """
 
-    print(formatter_style)
+#    print(formatter_style)
 
     if formatter_style == STYLISH:
         return stylish_formatter(diff)
@@ -52,8 +52,9 @@ def generate_diff(file_path1: str, file_path2: str, formatter_style=DEFAULT_FORM
         if file_type == '.yml' or file_type == '.yaml':
             first_dict = yaml.safe_load(f1)
             second_dict = yaml.safe_load(f2)
-
-        return format_output(get_diff(first_dict, second_dict), formatter_style)
+        result = format_output(get_diff(first_dict, second_dict), formatter_style)
+#        print(result)
+        return result
 
 
 def get_keys(first_dict: dict, second_dict: dict) -> dict:
@@ -119,4 +120,5 @@ def get_diff(first_dict: dict, second_dict=None) -> dict:       # noqa C901
                     STATE: NESTED,
                     VALUE: get_diff(first_dict[key], second_dict[key]),
                 }
+#    print(result_diff)
     return result_diff
