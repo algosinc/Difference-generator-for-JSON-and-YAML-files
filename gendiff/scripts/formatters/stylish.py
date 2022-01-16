@@ -66,7 +66,7 @@ def formatter(tree, depth=0):       # noqa C901
                     lines.append(_make_line(state=REMOVED, depth=depth + 1, key=key, val=formatter(value)))
 
                 if isinstance(new_value, dict):  # processed nested items
-                    lines.append(_add_tab(state, depth + 1, key))
+                    lines.append(_add_tab(ADDED, depth + 1, key))
                     lines.extend(formatter(new_value, depth + 2)[1:-1])
                     lines.append(_remove_tab(depth + 2))
                 else:  # processing leaf node
