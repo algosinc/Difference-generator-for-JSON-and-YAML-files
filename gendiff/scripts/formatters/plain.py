@@ -6,7 +6,7 @@ from gendiff.constants import \
     ADDED, CHANGED, NESTED, REMOVED, VALUE, NEW_VALUE, STATE
 
 
-def plain_formatter(diff: dict) -> str:
+def plain_formatter(diff: dict) -> str:     # noqa C901
     """
     Take a diff in intermediate format: { key: {state, value or old_value, new_value} }
     and format it in thesis-like format with statements about adding, updating and removal, like:
