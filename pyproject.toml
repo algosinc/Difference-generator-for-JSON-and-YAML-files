@@ -9,9 +9,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-PyYAML = "^5.4.1"
-
-
 pytest = "^6.2.5"
 coverage = "^6.1.1"
 PyYAML = "^6.0"
