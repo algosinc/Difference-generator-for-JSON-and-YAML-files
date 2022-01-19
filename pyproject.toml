@@ -1,15 +1,15 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.1.0"
+version = "1.0"
 description = ""
-authors = ["algos <algos.inc@gmail.com>"]
+authors = ["algos"]
 packages = [
   { include = "gendiff" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-#PyYAML = "^5.4.1"
+PyYAML = "^5.4.1"
 
 
 pytest = "^6.2.5"
