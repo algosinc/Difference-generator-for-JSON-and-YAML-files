@@ -1,11 +1,9 @@
-# Difference generator
+# Difference generator (Gendiff)
 [![linter-and-test-check](https://github.com/Corrosion667/python-project-lvl2/actions/workflows/linter-and-test-check.yml/badge.svg)](https://github.com/Corrosion667/python-project-lvl2/actions/workflows/linter-and-test-check.yml)
 [![Actions Status](https://github.com/algosinc/python-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/algosinc/python-project-lvl2/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f3994705cf70aae343a6/maintainability)](https://codeclimate.com/github/algosinc/python-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f3994705cf70aae343a6/test_coverage)](https://codeclimate.com/github/algosinc/python-project-lvl2/test_coverage)
 ---
-
-## Basic information
 
 **Difference generator** *(further - gendiff)* is a programm that determines the difference between two data structures.
 Then made difference is being presented in one of three formats to choose from.
