@@ -71,21 +71,7 @@ def get_keys(first_dict: dict, second_dict: dict) -> dict:
     return keys
 
 
-def get_diff(first_dict: dict, second_dict=None) -> dict:       # noqa C901
-    """
-    Compare two dicts and create the diff in intermediate format:
-    { key: {state, value or old_value, new_value} }
-    """
-    if not isinstance(first_dict, dict):     # returns the end value
-        return first_dict
-
-    if second_dict is None:      # for case when only one of two compared values is nested
-        second_dict = first_dict
-
-    all_keys = sorted(get_keys(first_dict, second_dict)[ALL])
-    removed_keys = get_keys(first_dict, second_dict)[REMOVED]
-    added_keys = get_keys(first_dict, second_dict)[ADDED]
-
+def make_diff(first_dict, second_dict, all_keys, removed_keys, added_keys):
     result_diff = {}
 
     for key in all_keys:
@@ -120,5 +106,22 @@ def get_diff(first_dict: dict, second_dict=None) -> dict:       # noqa C901
                     STATE: NESTED,
                     VALUE: get_diff(first_dict[key], second_dict[key]),
                 }
-#    print(result_diff)
     return result_diff
+
+
+def get_diff(first_dict: dict, second_dict=None) -> dict:       # noqa C901
+    """
+    Compare two dicts and create the diff in intermediate format:
+    { key: {state, value or old_value, new_value} }
+    """
+    if not isinstance(first_dict, dict):     # returns the end value
+        return first_dict
+
+    if second_dict is None:      # for case when only one of two compared values is nested
+        second_dict = first_dict
+
+    all_keys = sorted(get_keys(first_dict, second_dict)[ALL])
+    removed_keys = get_keys(first_dict, second_dict)[REMOVED]
+    added_keys = get_keys(first_dict, second_dict)[ADDED]
+
+    return make_diff(first_dict, second_dict, all_keys, removed_keys, added_keys)
