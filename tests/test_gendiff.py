@@ -24,6 +24,4 @@ def test_generate_diff_yaml():
     with open(PATH_TO_YAML_RESULT_FILE, 'r') as result_file:
         result = result_file.read()
         diff = generate_diff(PATH_TO_YAML_1_FILE, PATH_TO_YAML_2_FILE, 'stylish')
-        with open('tests/fixtures/yaml/yml_result.txt', 'w') as diff_result:
-            diff_result.write(diff)
         assert diff == result
