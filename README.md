@@ -6,7 +6,7 @@
 ---
 
 **The difference generator** *(further - gendiff)* is a program that determines the difference between two data structures.
-The difference is being presented in one of three formats to choose from.
+The difference is present in one of three formats to choose from.
 Gendiff currently works with **JSON** and **YML/YAML** files.
 
 
