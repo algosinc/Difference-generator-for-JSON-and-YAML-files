@@ -4,6 +4,7 @@
 from typing import Any
 from gendiff.constants import \
     ADDED, CHANGED, NESTED, REMOVED, VALUE, NEW_VALUE, STATE
+from gendiff.scripts.formatters.tools import convert
 
 
 def plain_formatter(diff: dict) -> str:     # noqa C901
@@ -60,11 +61,5 @@ def convert_value(value: Any) -> str:
         return '[complex value]'
     elif isinstance(value, str):
         return f"'{value}'"
-    elif value is True:
-        return 'true'
-    elif value is False:
-        return 'false'
-    elif value is None:
-        return 'null'
     else:
-        return value
+        return convert(value)
