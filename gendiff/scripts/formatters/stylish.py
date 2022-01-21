@@ -1,40 +1,18 @@
 from gendiff.constants import ADDED, CHANGED, INDENT, NESTED, REMOVED, UNCHANGED, VALUE, NEW_VALUE, STATE
 from gendiff.scripts.formatters.tools import convert
-from tests.fixtures.formatters.diff_fixture import data as testdata
 
 
-def stylish_formatter(tree):
+def stylish_formatter(tree: dict) -> str:
     return '\n'.join(formatter(tree))
 
 
-def _add_tab(state, depth, key):
-    signs = {ADDED: '+', REMOVED: '-', UNCHANGED: ' ', NESTED: ' ', CHANGED: '-'}
-    return f'{INDENT * depth}{signs.get(state)} {key}: ' + '{'
-
-
-def _remove_tab(depth):
-    return f'{INDENT * depth}' + '}'
-
-
-def _make_line(state, depth, key, val):  # make in format line
-    template = '{ind}{sign} {key}: {value}'
-
-    signs = {
-        ADDED: '+',
-        REMOVED: '-',
-        UNCHANGED: ' ',
-        NESTED: ' '
-    }
-
-    return template.format(
-        ind=INDENT * depth,
-        sign=signs.get(state),
-        key=key,
-        value=convert(val)
-    )
-
-
 def formatter(tree, depth=0):       # noqa C901
+    """Convert diff to a CLI notion.
+    Args:
+        diff: generated difference between two files.
+    Returns:
+        Difference formated into string with necessary syntax.
+    """
     lines = ['{']
 
     if not isinstance(tree, dict):
@@ -66,6 +44,7 @@ def formatter(tree, depth=0):       # noqa C901
 
 
 def changed_state(lines, depth, key, value, new_value):
+    """ """
     # for CHANGED, we make line, what was removed and make line with added items
     if isinstance(value, dict):  # processed nested items
         lines.append(_add_tab(REMOVED, depth + 1, key))
@@ -82,9 +61,29 @@ def changed_state(lines, depth, key, value, new_value):
         lines.append(_make_line(state=ADDED, depth=depth + 1, key=key, val=formatter(new_value)))
 
 
-def main():
-    print(stylish_formatter(testdata))
+def _add_tab(state, depth, key):
+    signs = {ADDED: '+', REMOVED: '-', UNCHANGED: ' ', NESTED: ' ', CHANGED: '-'}
+    return f'{INDENT * depth}{signs.get(state)} {key}: ' + '{'
 
 
-if __name__ == '__main__':
-    main()
+def _remove_tab(depth):
+    return f'{INDENT * depth}' + '}'
+
+
+def _make_line(state, depth, key, val):
+    """ return line, formatted by template """
+    template = '{ind}{sign} {key}: {value}'
+
+    signs = {
+        ADDED: '+',
+        REMOVED: '-',
+        UNCHANGED: ' ',
+        NESTED: ' '
+    }
+
+    return template.format(
+        ind=INDENT * depth,
+        sign=signs.get(state),
+        key=key,
+        value=convert(val)
+    )
